@@ -64,6 +64,11 @@ Replace with your actual values:
 
 **Note:** The compose uses `host.docker.internal` to connect to the BitcoinPurple node running on your host machine (outside the container). This works on both Windows/Mac and Linux thanks to the `extra_hosts` configuration.
 
+**Important RPC Configuration:** To allow RPC connections from the Docker container, you need to add this line to your `bitcoinpurple.conf` file:
+```
+rpcallowip=172.16.0.0/12 # docker
+```
+
 **Ports:** ElectrumX exposes:
 - `60001` → TCP (unencrypted)
 - `60002` → SSL (encrypted, recommended)
