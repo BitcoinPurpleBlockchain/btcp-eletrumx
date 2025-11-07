@@ -1,0 +1,36 @@
+services:
+  electrumx:
+    image: electrumx-btcp:local
+    container_name: electrumx-btcp
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "60001:60001"  # TCP
+      - "60002:60002"  # SSL
+
+    environment:
+      COIN: "BitcoinPurple"
+      NET: "mainnet"
+
+      DAEMON_URL: "http://<rpcuser>:<rpcpassword>@host.docker.internal:13495/"  # RPC credentials
+
+      SERVICES: "tcp://0.0.0.0:60001,ssl://0.0.0.0:60002"
+
+      SSL_CERTFILE: "/certs/server.crt"
+      SSL_KEYFILE: "/certs/server.key"
+
+      DB_DIRECTORY: "/data"
+      PEER_DISCOVERY: "off"
+      PEER_ANNOUNCE: "false"
+      INITIAL_CONCURRENT: "2"
+      COST_SOFT_LIMIT: "0"
+      COST_HARD_LIMIT: "0"
+
+    ulimits:
+      nofile:
+        soft: 1048576
+        hard: 1048576
+
+    volumes:
+      - ./data:/data

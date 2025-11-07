@@ -1,0 +1,44 @@
+# VCS
+.git
+.gitignore
+
+# Data volume (montato in compose)
+data/
+
+# Env e segreti
+.env
+*.env
+
+# Log
+*.log
+
+# IDE / editor
+.vscode/
+.idea/
+
+# Artefatti Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Packaging / build
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Cache test / typing / coverage
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.cache/
+.coverage*
+htmlcov/
+
+# File di sistema
+.DS_Store
+Thumbs.db
+desktop.ini
