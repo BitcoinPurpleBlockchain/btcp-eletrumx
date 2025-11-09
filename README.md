@@ -84,7 +84,7 @@ rpcallowip=172.16.0.0/12 # docker
 2. Build the custom Docker image:
 
    ```bash
-   docker build -t electrumx-btcp:local .
+   docker build . -t electrumx-btcp:local .
    ```
 
 3. Start the containers with Docker Compose:
@@ -107,7 +107,7 @@ The `test-server.py` script allows you to connect to the ElectrumX server and te
 Usage example:
 
 ```bash
-python test-server.py 127.0.0.1:60002
+python3 test-server.py 127.0.0.1:60002
 ```
 
 The script will perform:
