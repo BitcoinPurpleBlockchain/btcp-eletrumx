@@ -64,10 +64,41 @@ Replace with your actual values:
 
 **Note:** The compose uses `host.docker.internal` to connect to the BitcoinPurple node running on your host machine (outside the container). This works on both Windows/Mac and Linux thanks to the `extra_hosts` configuration.
 
-**Important RPC Configuration:** To allow RPC connections from the Docker container, you need to add this line to your `bitcoinpurple.conf` file:
+**Important RPC Configuration:** To allow RPC connections from the Docker container, you need to configure your `bitcoinpurple.conf` file properly.
+
+Here's a recommended complete configuration:
+
+```conf
+# Basic settings
+txindex=1
+server=1
+discover=1
+listen=1
+daemon=1
+
+# RPC Configuration
+rpcport=13495
+rpcuser=<rpcuser>
+rpcpassword=<rpcpassword>
+
+# Network binding - listen on localhost and Docker bridge
+rpcbind=127.0.0.1
+rpcbind=172.17.0.1
+
+# Allow RPC access from localhost and Docker networks
+rpcallowip=127.0.0.1
+rpcallowip=172.16.0.0/12
+
+# P2P port
+port=13496
+
+# Optional: Add bootstrap nodes
 ```
-rpcallowip=172.16.0.0/12 # docker
-```
+
+**Important Notes:**
+- Replace `<your_rpc_username>` and `<your_rpc_password>` with secure credentials
+- `rpcallowip=172.16.0.0/12` covers all Docker private networks (172.16.0.0 - 172.31.255.255)
+- After modifying the config, you **must restart** the BitcoinPurple node for changes to take effect
 
 **Ports:** ElectrumX exposes:
 - `60001` → TCP (unencrypted)
@@ -77,27 +108,40 @@ rpcallowip=172.16.0.0/12 # docker
 
 ---
 
-## Build and Start the Project
+## Start the Project
 
 1. Navigate to the directory containing `docker-compose.yml` and `Dockerfile`.
 
-2. Build the custom Docker image:
-
-   ```bash
-   docker build -t electrumx-btcp:local .
-   ```
-
-3. Start the containers with Docker Compose:
+2. Start the ElectrumX server:
 
    ```bash
    docker compose up -d
    ```
 
-4. Check the logs to verify that ElectrumX started correctly:
+   **Note:** The Docker image will be built automatically on the first run. You don't need to run `docker build` manually.
+
+3. Check the logs to verify that ElectrumX started correctly:
 
    ```bash
    docker compose logs -f
    ```
+
+   You should see messages indicating successful connection to the BitcoinPurple node and synchronization progress.
+
+### Rebuilding the Image
+
+If you need to rebuild the image after making changes to the Dockerfile or ElectrumX configuration:
+
+```bash
+docker compose up -d --build
+```
+
+Or manually:
+
+```bash
+docker compose build
+docker compose up -d
+```
 ---
 
 ## Testing with `test-server.py`
