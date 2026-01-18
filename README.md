@@ -96,7 +96,7 @@ port=13496
 ```
 
 **Important Notes:**
-- Replace `<your_rpc_username>` and `<your_rpc_password>` with secure credentials
+- Replace `<rpcuser>` and `<rpcpassword>` with secure credentials
 - `rpcallowip=172.16.0.0/12` covers all Docker private networks (172.16.0.0 - 172.31.255.255)
 - After modifying the config, you **must restart** the BitcoinPurple node for changes to take effect
 
